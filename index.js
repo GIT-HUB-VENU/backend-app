@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 
 // import {productRouter} from "./routes/productRoute.js";
 import { storeRouter } from "./routes/storeRoute.js";
+import { connect } from "mongoose";
+import connectDB from "./config/db.js";
 const app = express();
 
 dotenv.config();
@@ -28,6 +30,11 @@ app.use("/", storeRouter);
 // app.use("/products", productRouter);
 // app.use("/users", userRouter);
 
-app.listen(5000, () => {
-  console.log("Server Started");
-});
+const startServer = async () => {
+  await connectDB();
+  app.listen(5000, () => {
+    console.log("Server Started");
+  });
+};
+
+startServer();
