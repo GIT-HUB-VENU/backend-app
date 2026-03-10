@@ -21,4 +21,14 @@ const deleteProduct = async (req, res) => {
     res.redirect("/products");
 };
 
-export { getProducts, addProduct, addProductForm, deleteProduct };
+const editProductForm = async (req, res) => {
+    const id = req.params.id;
+    const product = await productModel.findOne({ _id: id });
+    res.render("products/edit", { product });
+}
+const saveProduct = async (req, res) => {
+    const { id, name, price,desc } = req.body;
+    await productModel.findByIdAndUpdate(id, { name, price ,desc });
+    res.redirect("/products");
+};
+export { getProducts, addProduct, addProductForm, deleteProduct, editProductForm, saveProduct};
