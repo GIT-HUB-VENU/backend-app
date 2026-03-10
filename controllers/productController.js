@@ -27,8 +27,8 @@ const editProductForm = async (req, res) => {
     res.render("products/edit", { product });
 }
 const saveProduct = async (req, res) => {
-    const { id, name, price,desc } = req.body;
-    await productModel.findByIdAndUpdate(id, { name, price ,desc });
-    res.redirect("/products");
+  const id = req.params.id;
+  await productModel.findByIdAndUpdate(id, req.body);
+  res.redirect("/products")
 };
 export { getProducts, addProduct, addProductForm, deleteProduct, editProductForm, saveProduct};

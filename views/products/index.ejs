@@ -14,9 +14,9 @@
     <li><div class="boxProducts">
           <!--<img src="<%= product.image %>" width="300px" alt="Product 1"> -->
           <ul>
-            <li ><%= product.name %></li>
-            <li ><%= product.desc %></li>
-            <li ><%= product.price %></li>
+            <li >Product Name : <%= product.name %></li>
+            <li >Description : <%= product.desc %></li>
+            <li >Price : $<%= product.price %></li>
             <a href="/products/<%= product._id %>/edit">Edit</a>
             <a href="/products/<%= product._id %>/delete">Delete</a>
           </ul>
