@@ -10,6 +10,7 @@
 }
 .box{
     margin: 5px;
+    margin-bottom: 5px;
     padding: 5px;
     border:1px solid gray;
     background-color: #f3ead8;
@@ -20,6 +21,7 @@
 }
 .boxProducts{
     margin: 5px;
+    margin-bottom: 9px;
     padding: 5px;
     padding-left : 40px;
     border:1px solid gray;
