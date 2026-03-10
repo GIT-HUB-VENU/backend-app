@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Document</title>
 </head>
 <body>
-    
+    <h2>Products Admin Page</h2>
+    <a href="/products/add">Add Product</a>
+    <ol>
+    <% products.forEach(product => { %>
+    <li><div class="boxProducts">
+          <!--<img src="<%= product.image %>" width="300px" alt="Product 1"> -->
+          <ul>
+            <li ><%= product.name %></li>
+            <li ><%= product.desc %></li>
+            <li ><%= product.price %></li>
+            <a href="/products/edit/<%= product._id %>">Edit</a>
+            <a href="/products/delete/<%= product._id %>">Delete</a>
+          </ul>
+        </div>
+    </li>
+     <% }) %>
+     <ol>
 </body>
 </html>
