@@ -26,6 +26,10 @@ const registerUser = async (req, res) => {
   const body = req.body;
   const hashedPassword = await bcrypt.hash(body.password, 10);
   body.password = hashedPassword;
+  const user = await userModel.findOne({ email: body.email });
+  if (user) {
+    res.redirect("/auth/register");
+  } 
   await userModel.create(body);
   res.redirect("/auth/login");
 };

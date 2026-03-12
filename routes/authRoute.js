@@ -7,5 +7,6 @@ authRouter.post("/login",validateUser)
 authRouter.get("/register",register)
 authRouter.post("/register",registerUser)
 authRouter.get("/logout",logout)
+authRouter.post("/signup",register)
 
 export default authRouter
