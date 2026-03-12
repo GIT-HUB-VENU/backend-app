@@ -4,7 +4,6 @@ import session from "express-session";
 import cors from "cors";
 import dotenv from "dotenv";
 import { authenticateAdmin } from "./middleware/auth.js";
-import mongoose from "mongoose";
 import dbConnect from "./config/db.js";
 import productRouter from "./routes/productRoute.js";
 import storeRouter from "./routes/storeRoute.js";
@@ -13,13 +12,7 @@ import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
 
 const app = express();
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+app.use(cors());
 dotenv.config();
 app.use(expressLayouts);
 app.set("view engine", "ejs");
@@ -42,26 +35,17 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req,res,next)=>{
-  console.log("REQUEST:", req.method, req.url);
-  next();
-});
-
 app.use("/auth", authRouter);
 app.use("/store", storeRouter);
-
-// Admin protected routes
-app.use("/admin", authenticateAdmin, homeRouter);
-app.use("/admin/products", authenticateAdmin, productRouter);
-app.use("/admin/users", authenticateAdmin, userRouter);
+app.use("/", authenticateAdmin, homeRouter);
+app.use("/products", authenticateAdmin, productRouter);
+app.use("/users", authenticateAdmin, userRouter);
 
 const startServer = async () => {
   await dbConnect();
- const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server Started on ${PORT}`);
-});
+  app.listen(5000, () => {
+    console.log("Server Started");
+  });
 };
 
 startServer();
