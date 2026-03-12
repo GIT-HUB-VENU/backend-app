@@ -2,8 +2,8 @@ const authenticateAdmin = (req, res, next) => {
   if (req.session.user) {
     next();
   } else {
-    res.render("auth/login");
+    res.status(401).json({ message: "Unauthorized. Please login." });
   }
 };
 
-export {authenticateAdmin}
+export { authenticateAdmin };
