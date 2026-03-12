@@ -13,7 +13,13 @@ import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 dotenv.config();
 app.use(expressLayouts);
 app.set("view engine", "ejs");
