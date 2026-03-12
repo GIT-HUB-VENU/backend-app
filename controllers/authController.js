@@ -39,6 +39,7 @@ const signup = async (req, res) => {
     email,
     password: hashedPassword,
   });
+  console.log(req.body);
   res.json(response);
 };
 
