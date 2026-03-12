@@ -39,7 +39,8 @@ const signup = async (req, res) => {
     email,
     password: hashedPassword,
   });
-  console.log(req.body,"from backend");
+  console.log("Signup route hit");
+console.log(req.body);
   res.json(response);
 };
 
