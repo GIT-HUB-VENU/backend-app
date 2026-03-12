@@ -45,9 +45,10 @@ app.use((req, res, next) => {
 app.use("/auth", authRouter);
 app.use("/store", storeRouter);
 
-app.use("/", authenticateAdmin, homeRouter);
-app.use("/products", authenticateAdmin, productRouter);
-app.use("/users", authenticateAdmin, userRouter);
+// Admin protected routes
+app.use("/admin", authenticateAdmin, homeRouter);
+app.use("/admin/products", authenticateAdmin, productRouter);
+app.use("/admin/users", authenticateAdmin, userRouter);
 
 const startServer = async () => {
   await dbConnect();
