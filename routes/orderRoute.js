@@ -1,21 +1,12 @@
-import {
-    getOrder,
-    placeOrder,
-    orderStatus,
-    addOrderForm,
-    deleteOrder,
-    editOrderForm,
-    saveOrder,
-} from "../controllers/orderController.js";
 import express from "express";
+import { getOrders, placeOrder, deleteOrder, getOrderById, updateOrder } from "../controllers/orderController.js";
+
 const orderRouter = express.Router();
 
-orderRouter.get("/", getOrder);
-orderRouter.get("/place", addOrderForm);
-orderRouter.post("/place", placeOrder);
-orderRouter.get("/:id/delete", deleteOrder);
-orderRouter.get("/:id/edit", editOrderForm);
-orderRouter.post("/:id/save", saveOrder);
-orderRouter.get("/:id/status", orderStatus);
+orderRouter.get("/", getOrders); // GET all orders
+orderRouter.post("/place", placeOrder); // POST place order
+orderRouter.get("/:id", getOrderById); // GET single order
+orderRouter.put("/:id", updateOrder); // PUT update order
+orderRouter.delete("/:id", deleteOrder); // DELETE order
 
 export default orderRouter;
