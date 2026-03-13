@@ -1,48 +1,54 @@
 import express from "express";
+import expressLayouts from "express-ejs-layouts";
 import session from "express-session";
 import cors from "cors";
 import dotenv from "dotenv";
+import { authenticateAdmin,authenticateUser } from "./middleware/auth.js";
 import dbConnect from "./config/db.js";
-import orderRouter from "./routes/orderRoute.js";
+import productRouter from "./routes/productRoute.js";
+import storeRouter from "./routes/storeRoute.js";
+import homeRouter from "./routes/homeRoute.js";
 import authRouter from "./routes/authRoute.js";
+import userRouter from "./routes/userRoute.js";
+import orderRouter from "./routes/orderRoute.js";
 
-dotenv.config();
 const app = express();
-
-// ----------------- CORS -----------------
-// Only allow your frontend origin
-app.use(
-  cors({
-    origin: "http://localhost:5173", // React frontend
-    credentials: true, // allow cookies to be sent
-  })
-);
-
-// ----------------- Middleware -----------------
-app.use(express.json());
+app.use(cors());
+dotenv.config();
+app.use(expressLayouts);
+app.set("view engine", "ejs");
+app.set("views", "views");
+app.set("layout", "layout");
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static("public"));
 
-// ----------------- Session -----------------
 app.use(
   session({
     secret: "secretkey",
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      secure: false, // true only if using HTTPS
-      httpOnly: true,
-      sameSite: "lax", // allows frontend to send cookie
-    },
-  })
+  }),
 );
 
-// ----------------- Routes -----------------
-app.use("/auth", authRouter);
-app.use("/orders", orderRouter); // <-- user orders route, no admin auth
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
 
-// ----------------- Start Server -----------------
+app.use("/auth", authRouter);
+app.use("/store", storeRouter);
+app.use("/orders",authenticateUser,orderRouter)
+app.use("/", authenticateAdmin, homeRouter);
+app.use("/products", authenticateAdmin, productRouter);
+app.use("/users", authenticateAdmin, userRouter);
+
+
 const startServer = async () => {
   await dbConnect();
-  app.listen(5000, () => console.log("Server started on port 5000"));
+  app.listen(5000, () => {
+    console.log("Server Started");
+  });
 };
+
 startServer();
