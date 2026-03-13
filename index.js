@@ -38,10 +38,10 @@ app.use((req, res, next) => {
 
 app.use("/auth", authRouter);
 app.use("/store", storeRouter);
+app.use("/orders", orderRouter); 
 app.use("/", authenticateAdmin, homeRouter);
 app.use("/products", authenticateAdmin, productRouter);
 app.use("/users", authenticateAdmin, userRouter);
-app.use("/orders", orderRouter); 
 const startServer = async () => {
   await dbConnect();
   app.listen(5000, () => {
