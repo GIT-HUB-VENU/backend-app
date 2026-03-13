@@ -1,12 +1,8 @@
-import express from "express";
-import { getOrders, placeOrder, deleteOrder, getOrderById, updateOrder } from "../controllers/orderController.js";
+import { placeOrder,showOrders } from "../controllers/orderController.js";
+import express from "express"
+const orderRouter = express.Router()
 
-const orderRouter = express.Router();
+orderRouter.post("/",placeOrder)
+orderRouter.get("/:email",showOrders)
 
-orderRouter.get("/", getOrders); // GET all orders
-orderRouter.post("/place", placeOrder); // POST place order
-orderRouter.get("/:id", getOrderById); // GET single order
-orderRouter.put("/:id", updateOrder); // PUT update order
-orderRouter.delete("/:id", deleteOrder); // DELETE order
-
-export default orderRouter;
+export default orderRouter

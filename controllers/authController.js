@@ -1,5 +1,7 @@
 import userModel from "../models/userModel.js";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+const SECRET = "mysecret"
 const login = async (req, res) => {
   res.render("auth/login");
 };
@@ -39,8 +41,6 @@ const signup = async (req, res) => {
     email,
     password: hashedPassword,
   });
-  console.log("Signup route hit");
-console.log(req.body);
   res.json(response);
 };
 
@@ -50,7 +50,13 @@ const signin = async (req, res) => {
   if (user) {
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
-      res.json(user);
+      const userObj = {
+        name:user.name,
+        email:user.email,
+        role:user.role,
+      };
+      const token = jwt.sign(userObj, SECRET, { expiresIn: "1h" });
+      res.json({ ...userObj, token });
     } else {
       res.json({ error: "Invalid Password" });
     }
@@ -65,4 +71,4 @@ const logout = (req, res) => {
   res.render("auth/login");
 };
 
-export { login, validateUser, register, registerUser, logout, signup,signin };
+export { login, validateUser, register, registerUser, logout, signup, signin };
